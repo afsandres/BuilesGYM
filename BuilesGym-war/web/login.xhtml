@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>#{appInfo.appName} - Login</title>
+            </f:facet>
+
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
+
+            <ui:insert name="head"></ui:insert>
+
+            <script type="text/javascript">
+                $(function () {
+                    $('.sidebar a').hover(function () {
+                        $(this).toggleClass('ui-state-hover');
+                    })
+                });
+            </script>
+
+
+        </h:head>
+
+        <h:body style="background: #fcfcfc; overflow:hidden;" >
+
+            <div id="header" class="ui-widget ui-widget-header">
+                <div id="logo-login">
+
+                    <p:panelGrid  id="logo" styleClass="noBorders">
+                        <p:row>
+                            <p:column style="font-weight: 700">
+                                <img src="#{request.contextPath}/images/sports-running-man-icon.png" alt="Logo"/>
+                            </p:column>
+                            <p:column style="bottom: 25px; position: absolute">
+                                <h:panelGrid columns="1">
+                                    <h:outputText value="#{basicMsg.login_title}" style="font-size: 30px !important;"/>
+                                </h:panelGrid>
+
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+                </div>
+
+
+                <div id="menu" class="ui-widget">
+                    <ul id="main">
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="ui-widget caja" style="width: 25%; margin-top: 5%;">
+
+                <div id="headerLogo" class="ui-widget ui-widget-header" style="border: 0 !important;">
+                    <p:panelGrid  id="headerLogos" styleClass="noBorders">
+                        <p:row>
+                            <p:column style="font-weight: 700">
+                                <img src="#{request.contextPath}/images/padlock-lock-icon.png" alt="Logo"/>
+                            </p:column>
+                            <p:column style="bottom: 25px; position: absolute">
+                                <h:panelGrid columns="1">
+                                    <h:outputText value="#{basicMsg.login_second_title}" style="font-size: 20px !important;"/>
+                                </h:panelGrid>
+
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </div>
+                <!-- CONTENIDO GENERAL PANEL DERECHA -->
+                <div id="content-login" >
+                    <h:form id="formlogin" >
+                        <br/>
+                        #{userSessionBean.verifyUserNotLoggedIn()}
+                        <p:growl id="messages" showDetail="true" /> 
+                        <h:panelGrid columns="1" columnClasses="columnlogin" style="width: 100%; ">
+                            <h:outputText value="#{basicMsg.login_username}" style="font-weight: bold; "/>
+                            <p:inputText id="userNameLogin" value="#{rolSessionBean.loginFormRol.userName}" required="true" label="Username" style="width: 90%" autocomplete="off"/>
+
+                            <h:outputText value="#{basicMsg.login_password}" style="font-weight: bold;"/>
+                            <p:password id="passwordlogin" value="#{rolSessionBean.loginFormRol.password}" required="true" label="Password" 
+                                        style="width: 90%" autocomplete="off"/>
+                        </h:panelGrid>
+
+                        <br/>
+                        <p:separator id="separator" style="margin-right: 25px"/>  
+                        <p:commandButton value="#{basicMsg.login_init}" action="#{rolSessionBean.doLogIn()}" icon="ui-icon-key" update="messages"></p:commandButton>
+                    </h:form>
+                </div>
+                <div style="clear: both;">&nbsp;</div>
+            </div>
+            <!-- PIE DE PAGINA -->
+            <div id="footerlogin" class="ui-widget ui-widget-header ui-widget-login ui-corner-all">
+                <p >
+                <h:outputLabel value="#{appInfo.appInfo}" style="vertical-align: super;"/>
+                </p>
+            </div>
+            <!-- ICONO LOADING // APARECE BAJO DEMANDA -->
+            <ui:insert name="status">
+                <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
+                    <f:facet name="start">
+                        <p:graphicImage value="/images/loading.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+            </ui:insert>
+
+        </h:body>
+    </f:view>
+</html>

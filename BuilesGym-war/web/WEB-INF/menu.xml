@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<!DOCTYPE menu [
+        <!ELEMENT menu (section*)>
+        <!ELEMENT section (name,
+                componentName,
+                url,
+                shortPath,
+                image,
+                selectedImage,
+                keyFeatures*,
+            subsectionList?)>
+        <!ELEMENT name          (#PCDATA)>
+        <!ELEMENT componentName (#PCDATA)>
+        <!ELEMENT url           (#PCDATA)>
+        <!ELEMENT shortPath     (#PCDATA)>
+        <!ELEMENT image         (#PCDATA)>
+        <!ELEMENT selectedImage (#PCDATA)>
+        <!ELEMENT keyFeatures   (feature*)>
+        <!ELEMENT feature       (#PCDATA)>
+        <!ELEMENT subsectionList         (subsection*)>
+        <!ELEMENT subsection      (name, url)>
+        <!ELEMENT name      (#PCDATA)>
+        <!ELEMENT url       (#PCDATA)>
+        ]>
+<menu>
+    
+    <category>
+        <name>home</name>
+        <level>10</level>
+        <systemSectionCode>HOME</systemSectionCode>
+        <sectionList>
+            <level>10</level>
+            <section>
+                <level>10</level>
+                <name>dashboard</name>
+                <level>10</level>
+                <systemSectionCode>HOME_DASHBOARD</systemSectionCode>
+                <subsectionList>
+                    <subsection>
+                        <name>dashboard</name>
+                        <level>10</level>
+                        <systemSectionCode>HOME_DASHBOARD_DASHBOARD</systemSectionCode>
+                        <url>/home/home.jsf</url>                        
+                    </subsection>
+                </subsectionList>
+            </section>
+        </sectionList>
+    </category>    
+    
+    <category>        
+        <name>admin</name>
+        <level>3</level>
+        <systemSectionCode>ADMIN</systemSectionCode>
+        <sectionList>
+            
+            <section>
+                <name>inventory</name>
+                <level>0</level>
+                <systemSectionCode>ADMIN_INVENTORY</systemSectionCode>
+                <subsectionList>
+                    <subsection>
+                        <name>inventories</name>
+                        <level>0</level>
+                        <systemSectionCode>ADMIN_INVENTORY_INVENTORIES</systemSectionCode>
+                        <url>/inventory/inventories.jsf</url>                      
+                    </subsection>
+                </subsectionList>
+            </section>
+            
+            <section>
+                <name>routine</name>
+                <level>0</level>
+                <systemSectionCode>ADMIN_ROUTINE</systemSectionCode>
+                <subsectionList>
+                    <subsection>
+                        <name>routines</name>
+                        <level>0</level>
+                        <systemSectionCode>ADMIN_ROUTINE_ROUTINES</systemSectionCode>
+                        <url>/routine/routines.jsf</url>                      
+                    </subsection>
+                </subsectionList>
+            </section>
+            
+            <section>
+                <name>service</name>
+                <level>0</level>
+                <systemSectionCode>ADMIN_SERVICE</systemSectionCode>
+                <subsectionList>
+                    <subsection>
+                        <name>services</name>
+                        <level>0</level>
+                        <systemSectionCode>ADMIN_SERVICE_SERVICES</systemSectionCode>
+                        <url>/service/services.jsf</url>                      
+                    </subsection>
+                </subsectionList>
+            </section>
+            
+            <section>
+                <name>employee</name>
+                <level>0</level>
+                <systemSectionCode>ADMIN_EMPLOYEE</systemSectionCode>
+                <subsectionList>
+                    <subsection>
+                        <name>employees</name>
+                        <level>0</level>
+                        <systemSectionCode>ADMIN_EMPLOYEE_EMPLOYEES</systemSectionCode>
+                        <url>/employee/employees.jsf</url>                      
+                    </subsection>
+                    <subsection>
+                        <name>roles</name>
+                        <systemSectionCode>ADMIN_EMPLOYEE_ROLES</systemSectionCode>
+                        <level>3</level>
+                        <url>/employee/roles.jsf</url>
+                    </subsection>
+                    <subsection>
+                        <name>privileges</name>
+                        <systemSectionCode>ADMIN_EMPLOYEE_PRIVILEGES</systemSectionCode>
+                        <level>3</level>
+                        <url>/employee/privileges.jsf</url>
+                    </subsection>
+                </subsectionList>
+            </section>
+            
+            <section>
+                <name>client</name>
+                <level>0</level>
+                <systemSectionCode>ADMIN_CLIENT</systemSectionCode>
+                <subsectionList>
+                    <subsection>
+                        <name>clients</name>
+                        <level>0</level>
+                        <systemSectionCode>ADMIN_CLIENT_CLIENTS</systemSectionCode>
+                        <url>/client/clients.jsf</url>                      
+                    </subsection>
+                </subsectionList>
+            </section>
+        </sectionList>
+    </category>
+    
+    <category>       
+        <name>Monitoring</name>
+        <level>3</level>
+        <systemSectionCode>MONITORING_CONTROL</systemSectionCode>
+        <sectionList>
+            <section>
+                <name>clients</name>
+                <systemSectionCode>MONITORING_CLIENTS</systemSectionCode>
+                <level>3</level>
+                <subsectionList>
+                    <subsection>
+                        <name>state_clients</name>
+                        <systemSectionCode>MONITORING_CLIENTS_SEARCHER</systemSectionCode>
+                        <level>3</level>
+                        <url>/monitoring/searcher-clients.jsf</url>
+                    </subsection>
+                    <subsection>
+                        <name>state_clients</name>
+                        <systemSectionCode>MONITORING_CLIENTS_GENERAL</systemSectionCode>
+                        <level>3</level>
+                        <url>/monitoring/general-clients.jsf</url>
+                    </subsection>
+                    <subsection>
+                        <name>control_clients</name>
+                        <systemSectionCode>MONITORING_CLIENTS_CONTROL</systemSectionCode>
+                        <level>3</level>
+                        <url>/monitoring/control-clients.jsf</url>
+                    </subsection>              
+                </subsectionList>
+            </section>
+            <section>
+                <name>employees</name>
+                <systemSectionCode>MONITORING_EMPLOYEES</systemSectionCode>
+                <level>3</level>
+                <subsectionList>
+                    <subsection>
+                        <name>state_employees</name>
+                        <systemSectionCode>MONITORING_EMPLOYEES_SEARCHER</systemSectionCode>
+                        <level>3</level>
+                        <url>/monitoring/searcher-employees.jsf</url>
+                    </subsection>
+                    <subsection>
+                        <name>state_clients</name>
+                        <systemSectionCode>MONITORING_EMPLOYEES_GENERAL</systemSectionCode>
+                        <level>3</level>
+                        <url>/monitoring/general-employees.jsf</url>
+                    </subsection>
+                    <subsection>
+                        <name>control_clients</name>
+                        <systemSectionCode>MONITORING_EMPLOYEE_CONTROL</systemSectionCode>
+                        <level>3</level>
+                        <url>/monitoring/control-employees.jsf</url>
+                    </subsection>              
+                </subsectionList>
+            </section>
+        </sectionList>
+    </category>
+</menu>

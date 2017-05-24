@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+    <application>        
+        <resource-bundle>
+            <base-name>resources.bundles.basicMessages</base-name>
+            <var>basicMsg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>resources.bundles.menuMessages</base-name>
+            <var>menuMsg</var>
+        </resource-bundle>   
+    </application>
+    <factory>
+        <exception-handler-factory>com.unisabaneta.builesgym.session.ExceptionFactory</exception-handler-factory>
+    </factory>
+</faces-config>

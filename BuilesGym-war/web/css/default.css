@@ -1,0 +1,544 @@
+body {
+    margin: 0px;
+    padding: 0;
+    color: #616161;
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 1.6em;
+    font-weight: normal;
+}
+
+h2 {
+    font-size: 1.6em;
+}
+
+h3 {
+    font-size: 1em;
+    margin-top:20px;
+}
+
+ul {
+}
+
+.red{
+    background-color: #f7a7a7;
+    background-image:none;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a img {
+    border: none;
+}
+
+img.left {
+    float: left;
+    margin: 0 20px 0 0;
+}
+
+img.right {
+    float: right;
+    margin: 0 0 0 20px;
+}
+
+/* Header */
+#header {
+    padding: 4px 0px;
+    height: 100px;
+    position: relative;
+}
+
+/* Header */
+#headerLogo {
+    padding: 4px 0px;
+    height: 100px;
+    position: relative;
+}
+
+/* Header */
+#header-login {
+    padding: 0px 4px 4px 4px;
+    height: 80px;
+    position: relative;
+}
+
+#logo {
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 7px;
+}
+
+#logo-login {
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 7px;
+}
+
+/* Menu */
+#menu {
+    position: absolute;
+    top:4px;
+    right:0px;
+    padding: 0;
+    width: 60%;
+    height: 94%;
+    overflow: hidden;
+}
+
+.widgetbuttons {
+    display: block;
+    float: right;
+    height: 60px;   
+    margin: 0px 30px 0px 0px;
+    padding: 0px 10px 0px 10px;
+    font-size: 50px;
+}
+
+#menu ul {
+    margin: 0;
+    list-style: none;
+}
+
+#menu li {
+    display: inline;
+}
+
+#menu li a {
+    display: block;
+    float: left;
+    margin: 0;
+    padding: 18px 0px 0px 0px;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+#menu li a:hover {
+    text-decoration: underline;
+}
+
+#globalthemeswitcher {
+    position:absolute;
+    top:5px;
+    right:50px;
+}
+
+/* Page */
+#page {
+    padding: 10px 0px;
+    background: #FFFFFF;
+}
+
+/* Content */
+#content {
+    width: 98%;
+    float:left;
+
+}
+
+/* Content */
+#content-login {
+    padding: 4px 0px 4px 20px;
+    width: 98%;
+}
+
+
+.caja{
+    margin: 0 auto 0 auto;
+    text-align: left;
+    width:30%  ;
+    border-radius: 10px;
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px;
+    background: #fff; 
+    border: 1px solid #e5e5e5;
+    box-shadow: rgba(200,200,200,1) 0 14px 28px;
+    -moz-box-shadow: rgba(200,200,200,1) 0 14px 28px; 
+    -webkit-box-shadow: rgba(200,200,200,1) 0 14px 28px; 
+}
+
+.ui-dashboard-column {
+    width: 99%;
+    min-height: 50px;
+    padding: 3px 3px 3px 3px;
+    margin-bottom: 2px;
+}
+
+/*.dashboardFila2 {
+    width: 45%;
+    padding: 3px 3px 3px 9px;
+    margin-bottom: 2px;
+}*/
+
+.post {
+    width: 100%;
+    padding-bottom: 5px;
+    margin-left: 0px;
+}
+
+.post h1 {
+    font-weight: normal;
+}
+
+.title {
+    height: 30px;
+    margin-left: 10px;
+    padding: 8px 0 0 20px;
+}
+
+.title a {
+    border-bottom: none;
+    color: #525252;
+}
+
+.title a:hover {
+    border-bottom: 1px dotted #000000;
+}
+
+.submenu-title {
+    padding: 4px 10px;
+}
+
+.submenu-content {
+    text-align:center;
+}
+
+.byline {
+    margin: -60px 20px 20px 20px;
+}
+
+.byline a {
+    color: #DC8700;
+}
+
+.tag {
+    padding: 0 15px;
+}
+
+.entry {
+    padding: 0 10px;
+}
+
+.entry p {
+    line-height: 200%;
+}
+
+.links {
+    padding: 4px 0px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.links a {
+    border: none;
+}
+
+.links a:hover {
+}
+
+
+#sports {
+    width: 200px;
+    padding: 0 10px;
+    margin-left: -1px;
+    overflow: hidden;
+}
+
+#sidebar {
+    float: left;
+    width: 10%;
+    padding: 0 10px;
+    margin-left: -1px;
+    overflow: hidden;
+}
+
+#sidebar a.ui-state-hover, 
+#sidebar a.ui-state-highlight {
+    border:0 none;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+#sidebar table {
+    width: 100%;
+}
+
+#sidebar table td {
+    vertical-align: top;
+}
+
+#sidebar ul {
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar ul li {
+    list-style-type: none;
+    padding: 1px;
+}
+
+/* Footer */
+#footer {
+    height: 40px;
+    font-size: 14px;
+    bottom: 0; 
+    width: 99%;    
+}
+
+#footer p {
+    margin: 0;
+    /*padding: 13px 0 0 0;*/
+    /*text-align: center;*/
+}
+
+#footer a {
+}
+
+#footer .link {
+    float: right;
+}
+
+#footer .copyright {
+    /*text-align: center;*/
+}
+
+/* Footer */
+#footerlogin {
+    height: 45px;
+    position: absolute;
+    bottom: 0; 
+    width: 100%;
+    font-size: 14px;
+}
+
+#footerlogin p {
+
+    /*text-align: center;*/
+}
+
+#footerlogin a {
+}
+
+.noBorders tr, .noBorders td {
+    background: none !important;
+    border: none !important;
+}
+
+
+.defaultCenterContent{
+    border: none; 
+    background: none;
+    background: none !important;
+    border: none !important;
+    width: 73%;
+}
+
+.defaultCenterContentFullWidth{
+    border: none; 
+    background: none;
+    background: none !important;
+    border: none !important;
+}
+
+
+.panelColumns td {
+    vertical-align: top; 
+}
+
+.defaultCenterAllContent{
+    border: none; 
+    background: none;
+    background: none !important;
+    border: none !important;
+    width: 100%;
+}
+
+.defaultCenterAllContentTree{
+    border: none; 
+    background: none;
+    background: none !important;
+    border: none !important;
+    margin-left:  15%;
+}
+
+.defaultCenterAllContentTreeAuthorizationKey{
+    border: none; 
+    background: none;
+    background: none !important;
+    border: none !important;
+}
+
+.defaultCenterContentDown{
+    border: none; 
+    background: none;
+    background: none !important;
+    border: none !important;
+    width: 37%;
+}
+
+.defaultSidePropertyPanel{
+    float: right; 
+    width: 25%
+}
+
+.defaultSidePropertyPanelMayor{
+    float: right; 
+    width: 35%
+}
+
+.defaultSidePropertyPanelMayor1{
+    float: right;
+    min-width: 100%;
+}
+.defaultSidePropertyPanelMayor2{
+    border: none; 
+    background: none;
+    background: none !important;
+    border: none !important;
+
+}
+
+
+.defaultSidePropertyPaneltree1{
+    /*    border: none; 
+       background: none;
+       background: none !important;
+       border: none !important;*/
+    width: 23%;
+    float: left;
+    margin-right: 5px;
+    height: 100%;
+}
+
+.nonePanelBorders{
+    border: none; 
+    background: none;
+    background: none !important;
+    border: none !important;
+}
+
+.ui-panel .ui-panel-content {
+    padding: 5px 1px 5px 1px;
+}
+
+.ui-widget-login{
+    border: none !important;
+    border-top: 1px solid #000000 !important;
+    border-radius: 0px 0px 0px 0px;
+    width: 100% !important;
+}
+
+.homeText {
+    line-height: 175%;
+}
+
+.homeMenu {
+    width:200px;
+    float:left;
+    margin-right:10px
+}
+
+.themeMenu {
+    overflow: auto;
+    height:300px;
+    width:200px;
+}
+
+.dp-xml {
+    width:1000px;
+}
+
+.ui-themeswitcher a.ui-selectonemenu-label-container {
+    text-decoration: none !important;
+}
+
+.ui-widget {
+    font-size: 12px !important;
+}
+
+.ui-widget-login {
+    font-size: 12px !important;
+}
+
+.noBordersPanel td{
+    border: none;
+    border-style: hidden;
+}
+
+.ui-datagrid-content 
+
+{
+    border: none;
+    border-style: hidden;
+}
+
+.selectX{
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 100px solid #000;
+}
+
+.AbstractServiceSelected {  
+    width: 12em;
+    border: dotted;
+    overflow: visible;   /* dibuja barras si es necesario */ 
+}
+
+.ui-outputlabel 
+{
+    font-size: 150%
+}
+
+.heightRowTreeTable{
+    height: 0.5px !important;
+    max-height: 1px !important
+}
+
+
+.imgButton:hover
+{
+    opacity:0.4;
+    filter:alpha(opacity=100); /* For IE8 and earlier */
+}
+
+.dateTimeField input {
+    font-size: 20px !important; 
+    height: 35px !important; 
+    width: 95%
+}
+
+.spinnerTimeField input {
+    width: 188px
+}
+.defaultContentDown{
+    border: none; 
+    background: none;
+    background: none !important;
+    border: none !important;
+    width: 50%;
+}
+
+.panelColumns td {
+    vertical-align: top; 
+}
+
+.noBorders tr, .noBorders td {
+    background: none !important;
+    border: none !important;
+}
+.ui-selectlistbox-listcontainer {
+    min-height: 700px;
+    
+}

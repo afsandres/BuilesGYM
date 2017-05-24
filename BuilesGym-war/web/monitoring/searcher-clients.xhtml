@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/ui.xhtml">
+
+    <ui:define name="head" >
+        <style type="text/css">
+            .ui-confirm-dialog-severity {
+                margin: 0 7px 7px 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content" >
+
+        <div id="searcher" class="entry" style="line-height:200%">
+
+            #{seracherBean.initRfidTag()}
+
+            <p:growl id="messages" showDetail="true" life="5000" />  
+
+            <p:panel id="searcherPanel" styleClass="defaultCenterContent" style="float: left;" >
+
+
+                <p:dataTable id="vehicleTable" style="margin: 0px 0px 0px 0px" value="#{seracherBean.vehicleModel}" var="vehicleTable" emptyMessage="#{basicMsg.msg_no_records_found}"
+                             selectionMode="single" selection="#{seracherBean.selectedVehicle}" 
+                             paginator="true"  paginatorPosition="bottom" rows="12" lazy="true" > 
+
+                    <p:ajax event="rowSelect" update=":form:searcherPanel" resetValues="true"/>
+
+                    <p:column headerText="#{basicMsg.id}">  
+                        #{vehicleTable.vehicleId}  
+                    </p:column>  
+
+                    <p:column headerText="#{basicMsg.name_validation}">  
+                        #{vehicleTable.name}  
+                    </p:column>  
+                    <p:column headerText="#{basicMsg.creation_date_time}"> 
+                        <h:outputText value="#{vehicleTable.creationDateTime}">
+                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"/>
+                        </h:outputText>
+                    </p:column>  
+                    
+                    <p:column headerText="#{basicMsg.vehicle_group_id}">  
+                        #{vehicleTable.vehicleGroupId.vehicleGroupId}  
+                    </p:column>  
+                    <p:column headerText="#{basicMsg.active}">  
+                        <p:selectBooleanCheckbox value="#{vehicleTable.active}" disabled="true"/>   
+                    </p:column>  
+
+                </p:dataTable>
+            </p:panel>   
+        </div>
+
+    </ui:define>
+
+</ui:composition>
