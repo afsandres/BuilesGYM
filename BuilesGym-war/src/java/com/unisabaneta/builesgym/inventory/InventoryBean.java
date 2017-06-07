@@ -11,9 +11,9 @@ import com.unisabaneta.builesgym.model.InventoryModel;
 import com.unisabaneta.builesgym.tools.MessageTools;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -27,7 +27,7 @@ import resources.business.ResourcesMgr;
  * @author Andres
  */
 @Named(value = "inventoryBean")
-@ViewScoped
+@SessionScoped
 public class InventoryBean implements Serializable {
 
     //INJECT
@@ -86,7 +86,7 @@ public class InventoryBean implements Serializable {
         Inventary inventary = new Inventary();
         setSelectedInventary(inventary);
         setPropertyPanelVisible(true);
-        messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("rfid_tag_msg_fill", viewRoot.getLocale()), "");
+        messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("inventory_msg_fill", viewRoot.getLocale()), "");
     }
 
     /**
@@ -114,12 +114,11 @@ public class InventoryBean implements Serializable {
 
             if (isNew) {
                 inventaryFacade.create(getSelectedInventary());
-                messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("rfid_tag_msg_create", viewRoot.getLocale()), "");
+                messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("msg_create_successfully", viewRoot.getLocale()), "");
                 inventoryModel = null;
-
             } else {
                 editInventory();
-                messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("rfid_tag_msg_edit", viewRoot.getLocale()), "");
+                messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("msg_edit_successfully", viewRoot.getLocale()), "");
                 inventoryModel = null;
             }
             success = true;
@@ -133,9 +132,9 @@ public class InventoryBean implements Serializable {
 
         if (!success) {
             if (isNew) {
-                messageTools.displayMessage(FacesMessage.SEVERITY_ERROR, resourcesMgr.getText("rfid_tag_msg_error_create", viewRoot.getLocale()), "");
+                messageTools.displayMessage(FacesMessage.SEVERITY_ERROR, resourcesMgr.getText("msg_error_create", viewRoot.getLocale()), "");
             } else {
-                messageTools.displayMessage(FacesMessage.SEVERITY_ERROR, resourcesMgr.getText("rfid_tag_msg_error_edit", viewRoot.getLocale()), "");
+                messageTools.displayMessage(FacesMessage.SEVERITY_ERROR, resourcesMgr.getText("msg_error_edit", viewRoot.getLocale()), "");
 
             }
 
@@ -148,22 +147,19 @@ public class InventoryBean implements Serializable {
      * pide por medio de un mensaje que seleccione un grupo.
      */
     public void removeInventory() {
-
         boolean success;
-        boolean isNoUsedInventory = false;
         Exception ex;
         try {
             if (getSelectedInventary().getIdInventary() == null) {
-                messageTools.displayMessage(FacesMessage.SEVERITY_WARN, resourcesMgr.getText("rfid_tag_msg_error_deleted", viewRoot.getLocale()), "");
+                messageTools.displayMessage(FacesMessage.SEVERITY_WARN, resourcesMgr.getText("inventory_msg_selected_deleted", viewRoot.getLocale()), "");
                 return;
             } else {
-
                 inventaryFacade.remove(getSelectedInventary());
-                messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("rfid_tag_msg_deleted", viewRoot.getLocale()), "");
+                messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("msg_remove_successfully", viewRoot.getLocale()), "");
+                setPropertyPanelVisible(false);
                 selectedInventary = null;
                 inventoryModel = null;
                 success = true;
-
             }
         } catch (Exception e) {
             success = false;
@@ -173,15 +169,8 @@ public class InventoryBean implements Serializable {
         }
 
         if (!success) {
-            if (!isNoUsedInventory) {
-                messageTools.displayMessage(FacesMessage.SEVERITY_ERROR, resourcesMgr.getText("rfid_tag_msg_error_deleted", viewRoot.getLocale()), "");
-
-            } else {
-                messageTools.displayMessage(FacesMessage.SEVERITY_ERROR, resourcesMgr.getText("rfid_tag_msg_error_deleted", viewRoot.getLocale()), "");
-
-            }
+            messageTools.displayMessage(FacesMessage.SEVERITY_ERROR, resourcesMgr.getText("inventory_msg_error_deleted", viewRoot.getLocale()), "");
         }
-
     }
 
     /**
@@ -194,7 +183,6 @@ public class InventoryBean implements Serializable {
     }
 
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="SETTERS & GETTERS">
     /**
      * @return the propertyPanelNoVisible

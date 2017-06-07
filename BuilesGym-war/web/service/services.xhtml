@@ -1,16 +1,103 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/ui.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .ui-confirm-dialog-severity {
+                margin: 0 7px 7px 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">  
+        <div id="services" class="entry"  style="line-height:200%"  >
+            <p:growl id="messages" showDetail="true" life="5000" />  
+            #{serviceBean.initService()}
+            <p:panel id="servicesPanel" styleClass="defaultCenterContent" style="float: left;" >
+                <p:dataTable id="servicesTable" style="margin: 8px 0px 0px 0px" value="#{serviceBean.serviceModel}" var="service"
+                             selectionMode="single" selection="#{serviceBean.selectedService}" 
+                             paginator="true"  paginatorPosition="bottom" rows="12" lazy="true" emptyMessage="#{basicMsg.msg_no_records_found}"> 
+
+                    <p:ajax event="rowSelect" update=":form:propertiesServicePanel" />
+
+                    <p:column headerText="#{basicMsg.service_id}">  
+                        #{service.idService}
+                    </p:column>  
+                    
+                    <p:column headerText="#{basicMsg.service_weekday}">  
+                        #{service.weekday}
+                    </p:column>  
+
+                    <p:column headerText="#{basicMsg.service_quantityPerson}">  
+                        #{service.quantityPerson}  
+                    </p:column> 
+
+                    <f:facet name="footer">  
+                        <p:commandLink    value="#{basicMsg.add}"    
+                                          style="margin-right: 5%"
+                                          action="#{serviceBean.createService()}" 
+                                          process="@this servicesTable"
+                                          update=":form:servicesPanel :form:propertiesServicePanel :form:messages"
+                                          rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"/>
+
+                        <p:commandLink value="#{basicMsg.delete}" actionListener="#{serviceBean.removeService()}" 
+                                       process="@this servicesTable" 
+                                       update="@this :form:servicesPanel :form:propertiesServicePanel :form:messages" rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}">
+                            <p:confirm header="#{basicMsg.eliminating}" message="#{basicMsg.service_msg_question_deleted}" icon="ui-icon-alert" />
+                        </p:commandLink>
+
+                        <p:confirmDialog global="true" showEffect="fade">
+                            <p:commandButton value="#{basicMsg.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{basicMsg.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel id="propertiesServicePanel" styleClass="defaultSidePropertyPanel">
+                <f:facet name="header">  
+                    #{basicMsg.service_properties_service}
+                </f:facet>
+                <p:panelGrid id="propertiesService" columns="2" styleClass="noBorders" rendered="#{serviceBean.propertyPanelVisible}">
+                    <p:outputLabel/>
+                    <p:inputText id="id" value="#{serviceBean.selectedService.idService}" disabled="true" style="display: none" />  
+
+                    <h:outputLabel for="quantityPerson" value="#{basicMsg.service_quantityPerson}" />  
+                    <p:spinner id="quantityPerson" value="#{serviceBean.selectedService.quantityPerson}" min="1" max="100" stepFactor="1" />
+
+                    <h:outputLabel for="startTime" value="#{basicMsg.service_startTime}" />  
+                    <p:calendar id="startTime" value="#{serviceBean.selectedService.startTime}" mindate="#{serviceBean.minDate}"/> 
+
+                    <h:outputLabel for="endTime" value="#{basicMsg.service_endTime}" />  
+                    <p:calendar id="endTime" value="#{serviceBean.selectedService.endTime}" mindate="#{serviceBean.minDate}" /> 
+
+                    <h:outputLabel for="weekday" value="#{basicMsg.service_weekday}" />  
+                    <p:inputText id="weekday" value="#{serviceBean.selectedService.weekday}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+
+                    <h:outputLabel for="detailService" value="#{basicMsg.service_detail}" /> 
+                    <p:inputTextarea id="detailService" value="#{serviceBean.selectedService.detailService}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+
+
+                    <h:outputLabel for="employee" value="#{basicMsg.service_employee}" /> 
+                    <p:selectOneMenu id="employee" style="width: 100%"
+                                     value="#{serviceBean.selectedService.employeeidEmployee}">  
+                        <f:converter converterId="employeeConverter" />
+                        <f:selectItems value="#{serviceBean.employeeList}" 
+                                       var="employee" itemLabel="#{employee.nameEmployee}" 
+                                       itemValue="#{employee}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <f:facet name="footer">  
+                    <p:commandLink    value="#{basicMsg.save}"  rendered="#{serviceBean.propertyPanelVisible and rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"                                 
+                                      action="#{serviceBean.saveServiceChanges()}" update=":form:servicesPanel :form:propertiesServicePanel :form:messages"
+                                      />
+                </f:facet>
+            </p:panel>
+        </div>
+    </ui:define>
+</ui:composition>

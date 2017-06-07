@@ -71,9 +71,8 @@ public class Rol implements Serializable {
     private boolean activeRol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolidRol", fetch = FetchType.LAZY)
     private List<Rolsystemsectionprivilege> rolsystemsectionprivilegeList;
-    @JoinColumn(name = "Employee_idEmployee", referencedColumnName = "idEmployee")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Employee employeeidEmployee;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolidRol", fetch = FetchType.LAZY)
+    private List<Employee> employeeList;
     @JoinColumn(name = "languageLocale_idlanguageLocale", referencedColumnName = "idlanguageLocale")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Languagelocale languageLocaleidlanguageLocale;
@@ -142,12 +141,13 @@ public class Rol implements Serializable {
         this.rolsystemsectionprivilegeList = rolsystemsectionprivilegeList;
     }
 
-    public Employee getEmployeeidEmployee() {
-        return employeeidEmployee;
+    @XmlTransient
+    public List<Employee> getEmployeeList() {
+        return employeeList;
     }
 
-    public void setEmployeeidEmployee(Employee employeeidEmployee) {
-        this.employeeidEmployee = employeeidEmployee;
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
 
     public Languagelocale getLanguageLocaleidlanguageLocale() {

@@ -1,16 +1,113 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/ui.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .ui-confirm-dialog-severity {
+                margin: 0 7px 7px 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">  
+        <div id="employees" class="entry"  style="line-height:200%"  >
+            <p:growl id="messages" showDetail="true" life="5000" />  
+            #{employeeBean.initEmployee()}
+            <p:panel id="employeesPanel" styleClass="defaultCenterContent" style="float: left;" >
+                <p:dataTable id="employeesTable" style="margin: 8px 0px 0px 0px" value="#{employeeBean.employeeModel}" var="employee"
+                             selectionMode="single" selection="#{employeeBean.selectedEmployee}" 
+                             paginator="true"  paginatorPosition="bottom" rows="12" lazy="true" emptyMessage="#{basicMsg.msg_no_records_found}"> 
+
+                    <p:ajax event="rowSelect" update=":form:propertiesEmployeePanel" />
+
+                    <p:column headerText="#{basicMsg.employee_id}">  
+                        #{employee.idEmployee}
+                    </p:column>  
+
+                    <p:column headerText="#{basicMsg.employee_nameEmployee}">  
+                        #{employee.nameEmployee}  
+                    </p:column> 
+
+                    <p:column headerText="#{basicMsg.employee_cellPhoneEmployee}">  
+                        #{employee.cellPhoneEmployee}  
+                    </p:column> 
+
+
+                    <p:column headerText="#{basicMsg.employee_specializationEmployee}">  
+                        #{employee.specializationEmployee}  
+                    </p:column> 
+
+                    <f:facet name="footer">  
+                        <p:commandLink    value="#{basicMsg.add}"    
+                                          style="margin-right: 5%"
+                                          action="#{employeeBean.createEmployee()}" 
+                                          process="@this employeesTable"
+                                          update=":form:employeesPanel :form:propertiesEmployeePanel :form:messages"
+                                          rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"/>
+
+                        <p:commandLink value="#{basicMsg.delete}" actionListener="#{employeeBean.removeEmployee()}" 
+                                       process="@this employeesTable" 
+                                       update="@this :form:employeesPanel :form:propertiesEmployeePanel :form:messages" rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}">
+                            <p:confirm header="#{basicMsg.eliminating}" message="#{basicMsg.employee_msg_question_deleted}" icon="ui-icon-alert" />
+                        </p:commandLink>
+
+                        <p:confirmDialog global="true" showEffect="fade">
+                            <p:commandButton value="#{basicMsg.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{basicMsg.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel id="propertiesEmployeePanel" styleClass="defaultSidePropertyPanel">
+                <f:facet name="header">  
+                    #{basicMsg.employee_properties_employee}
+                </f:facet>
+                <p:panelGrid id="propertiesEmployee" columns="2" styleClass="noBorders" rendered="#{employeeBean.propertyPanelVisible}">
+                    <p:outputLabel/>
+                    <p:inputText id="id" value="#{employeeBean.selectedEmployee.idEmployee}" disabled="true" style="display: none" />  
+                    <h:outputLabel for="nameEmployee" value="#{basicMsg.employee_nameEmployee}" />  
+                    <p:inputText id="nameEmployee" value="#{employeeBean.selectedEmployee.nameEmployee}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+
+                    <h:outputLabel for="addressEmployee" value="#{basicMsg.employee_addressEmployee}" />  
+                    <p:inputText id="addressEmployee" value="#{employeeBean.selectedEmployee.addressEmployee}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+
+                    <h:outputLabel for="birthdayEmployee" value="#{basicMsg.employee_birthdayEmployee}" />  
+                    <p:calendar id="birthdayEmployee" value="#{employeeBean.birthDay}" maxdate="#{employeeBean.maxDate}"></p:calendar>
+
+                    <h:outputLabel for="cellPhoneEmployee" value="#{basicMsg.employee_cellPhoneEmployee}" />  
+                    <p:inputText id="cellPhoneEmployee" value="#{employeeBean.selectedEmployee.cellPhoneEmployee}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+
+                    <h:outputLabel for="emailEmployee" value="#{basicMsg.employee_emailEmployee}" />  
+                    <p:inputText id="emailEmployee" value="#{employeeBean.selectedEmployee.emailEmployee}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}">
+                        <f:validateRegex
+                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                    </p:inputText>
+
+                    <h:outputLabel for="specializationEmployee" value="#{basicMsg.employee_specializationEmployee}" />  
+                    <p:inputText id="specializationEmployee" value="#{employeeBean.selectedEmployee.specializationEmployee}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+
+                    <h:outputLabel for="rol" value="#{basicMsg.employee_rol}" /> 
+                    <p:selectOneMenu id="rol" style="width: 100%"
+                                     value="#{employeeBean.selectedEmployee.rolidRol}">  
+                        <f:converter converterId="rolConverter" />
+                        <f:selectItems value="#{employeeBean.rolList}" 
+                                       var="rol" itemLabel="#{rol.nameRol}" 
+                                       itemValue="#{rol}"/>
+                    </p:selectOneMenu>
+
+                </p:panelGrid>
+                <f:facet name="footer">  
+                    <p:commandLink    value="#{basicMsg.save}"  rendered="#{employeeBean.propertyPanelVisible and rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"                                 
+                                      action="#{employeeBean.saveEmployeeChanges()}" update=":form:employeesPanel :form:propertiesEmployeePanel :form:messages"
+                                      />
+                </f:facet>
+            </p:panel>
+        </div>
+    </ui:define>
+</ui:composition>

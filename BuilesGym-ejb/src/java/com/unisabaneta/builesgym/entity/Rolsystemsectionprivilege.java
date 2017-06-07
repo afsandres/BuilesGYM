@@ -52,7 +52,6 @@ public class Rolsystemsectionprivilege implements Serializable {
     private String systemSection;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "privilege")
     @Enumerated(EnumType.STRING)
     private Privilege privilege;
@@ -72,7 +71,7 @@ public class Rolsystemsectionprivilege implements Serializable {
         this.systemSection = systemSection;
         this.privilege = privilege;
     }
-    
+
      public Rolsystemsectionprivilege(String systemSection, Privilege privilege) {
         this.systemSection = systemSection;
         this.privilege = privilege;

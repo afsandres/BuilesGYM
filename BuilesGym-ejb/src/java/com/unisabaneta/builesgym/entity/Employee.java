@@ -15,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -78,8 +80,9 @@ public class Employee implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "specializationEmployee")
     private String specializationEmployee;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeidEmployee", fetch = FetchType.LAZY)
-    private List<Rol> rolList;
+    @JoinColumn(name = "rol_idRol", referencedColumnName = "idRol")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Rol rolidRol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeidEmployee", fetch = FetchType.LAZY)
     private List<Service> serviceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeidEmployee", fetch = FetchType.LAZY)
@@ -158,13 +161,12 @@ public class Employee implements Serializable {
         this.specializationEmployee = specializationEmployee;
     }
 
-    @XmlTransient
-    public List<Rol> getRolList() {
-        return rolList;
+    public Rol getRolidRol() {
+        return rolidRol;
     }
 
-    public void setRolList(List<Rol> rolList) {
-        this.rolList = rolList;
+    public void setRolidRol(Rol rolidRol) {
+        this.rolidRol = rolidRol;
     }
 
     @XmlTransient

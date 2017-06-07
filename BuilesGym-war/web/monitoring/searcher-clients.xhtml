@@ -16,41 +16,17 @@
     <ui:define name="content" >
 
         <div id="searcher" class="entry" style="line-height:200%">
-
-            #{seracherBean.initRfidTag()}
-
             <p:growl id="messages" showDetail="true" life="5000" />  
-
             <p:panel id="searcherPanel" styleClass="defaultCenterContent" style="float: left;" >
-
-
-                <p:dataTable id="vehicleTable" style="margin: 0px 0px 0px 0px" value="#{seracherBean.vehicleModel}" var="vehicleTable" emptyMessage="#{basicMsg.msg_no_records_found}"
-                             selectionMode="single" selection="#{seracherBean.selectedVehicle}" 
-                             paginator="true"  paginatorPosition="bottom" rows="12" lazy="true" > 
-
-                    <p:ajax event="rowSelect" update=":form:searcherPanel" resetValues="true"/>
-
-                    <p:column headerText="#{basicMsg.id}">  
-                        #{vehicleTable.vehicleId}  
-                    </p:column>  
-
-                    <p:column headerText="#{basicMsg.name_validation}">  
-                        #{vehicleTable.name}  
-                    </p:column>  
-                    <p:column headerText="#{basicMsg.creation_date_time}"> 
-                        <h:outputText value="#{vehicleTable.creationDateTime}">
-                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"/>
-                        </h:outputText>
-                    </p:column>  
-                    
-                    <p:column headerText="#{basicMsg.vehicle_group_id}">  
-                        #{vehicleTable.vehicleGroupId.vehicleGroupId}  
-                    </p:column>  
-                    <p:column headerText="#{basicMsg.active}">  
-                        <p:selectBooleanCheckbox value="#{vehicleTable.active}" disabled="true"/>   
-                    </p:column>  
-
-                </p:dataTable>
+                <p:panelGrid id="searchClient" columns="2" styleClass="noBorders">
+                    <p:outputLabel value="#{basicMsg.search_client}"/>
+                    <p:inputText value="#{searchClientBean.document}" validatorMessage="#{basicMsg.msg_no_empty_max_value}" maxlength="10" />
+                    <p:commandLink value="#{basicMsg.search}" action="#{searchClientBean.searchClient()}" update=":form:propertiesClient :form:messages"/>
+                    <p:panelGrid id="propertiesClient" columns="2" styleClass="noBorders" rendered="#{searchClientBean.propertyPanelVisible}">
+                        <p:outputLabel value="#{searchClientBean.client.nameClient}"/>
+                        <p:outputLabel value="#{searchClientBean.client.activeClient}"/>
+                    </p:panelGrid>
+                </p:panelGrid>
             </p:panel>   
         </div>
 

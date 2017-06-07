@@ -4,7 +4,8 @@
  */
 package com.unisabaneta.builesgym.appinfo;
 
-import javax.enterprise.context.RequestScoped;
+import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
@@ -12,8 +13,8 @@ import javax.inject.Named;
  * @author Andres
  */
 @Named(value = "appInfo")
-@RequestScoped
-public class AppInfo {
+@SessionScoped
+public class AppInfo implements Serializable {
 
     private String vendor = "UNISABANETA    ";
     private String appName = "BUILES GYM";

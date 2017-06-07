@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/ui.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .ui-confirm-dialog-severity {
+                margin: 0 7px 7px 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">  
+        <div id="roles" class="entry"  style="line-height:200%"  >
+            <p:growl id="messages" showDetail="true" life="5000" />  
+            #{rolBean.initRol()}
+            <p:panel id="rolesPanel" styleClass="defaultCenterContent" style="float: left;" >
+                <p:dataTable id="rolesTable" style="margin: 8px 0px 0px 0px" value="#{rolBean.rolModel}" var="rol"
+                             selectionMode="single" selection="#{rolBean.selectedRol}" 
+                             paginator="true"  paginatorPosition="bottom" rows="12" lazy="true" emptyMessage="#{basicMsg.msg_no_records_found}"> 
+
+                    <p:ajax event="rowSelect" update=":form:propertiesRolPanel" />
+
+                    <p:column headerText="#{basicMsg.rol_id}">  
+                        #{rol.idRol}
+                    </p:column>  
+
+                    <p:column headerText="#{basicMsg.rol_nameRol}">  
+                        #{rol.nameRol}  
+                    </p:column> 
+
+                    <p:column headerText="#{basicMsg.rol_userRol}">  
+                        #{rol.userRol}  
+                    </p:column> 
+
+                    <p:column headerText="#{basicMsg.rol_activeRol}">  
+                        #{rol.activeRol}  
+                    </p:column> 
+
+                    <f:facet name="footer">  
+                        <p:commandLink    value="#{basicMsg.add}"    
+                                          style="margin-right: 5%"
+                                          action="#{rolBean.createRol()}" 
+                                          process="@this rolesTable"
+                                          update=":form:rolesPanel :form:propertiesRolPanel :form:messages"
+                                          rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"/>
+
+                        <p:commandLink value="#{basicMsg.delete}" actionListener="#{rolBean.removeRol()}" 
+                                       process="@this rolesTable" 
+                                       update="@this :form:rolesPanel :form:propertiesRolPanel :form:messages" rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}">
+                            <p:confirm header="#{basicMsg.eliminating}" message="#{basicMsg.routine_msg_question_deleted}" icon="ui-icon-alert" />
+                        </p:commandLink>
+
+                        <p:confirmDialog global="true" showEffect="fade">
+                            <p:commandButton value="#{basicMsg.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{basicMsg.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel id="propertiesRolPanel" styleClass="defaultSidePropertyPanel">
+                <f:facet name="header">  
+                    #{basicMsg.routine_properties_routine}
+                </f:facet>
+                <p:panelGrid id="propertiesRol" columns="2" styleClass="noBorders" rendered="#{rolBean.propertyPanelVisible}">
+                    <p:outputLabel/>
+                    <p:inputText id="id" value="#{rolBean.selectedRol.idRol}" disabled="true" style="display: none" />  
+                    <h:outputLabel for="nameRol" value="#{basicMsg.rol_nameRol}" />  
+                    <p:inputText id="nameRol" value="#{rolBean.selectedRol.nameRol}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+
+                    <h:outputLabel for="userRol" value="#{basicMsg.rol_userRol}" />  
+                    <p:inputText id="userRol" value="#{rolBean.selectedRol.userRol}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+
+
+                    <h:outputLabel for="languaje" value="#{basicMsg.rol_languaje}" /> 
+                    <p:selectOneMenu id="languaje" style="width: 100%"
+                                     value="#{rolBean.selectedRol.languageLocaleidlanguageLocale}">  
+                        <f:converter converterId="languajeConverter" />
+                        <f:selectItems value="#{rolBean.languageLocaleList}" 
+                                       var="languaje" itemLabel="#{languaje.name}" 
+                                       itemValue="#{languaje}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel for="passwordRol" value="#{basicMsg.rol_passwordRol}" />  
+                    <p:password id="passwordRol" redisplay="true" autocomplete="off" value="#{rolBean.selectedRol.passwordRol}" maxlength="50" validatorMessage="#{basicMsg.msg_no_empty}">
+                        <f:validateLength minimum="8"/>
+                        <f:validateRegex pattern="{1,50}[a-zA-Z0-9._]*"/>
+                    </p:password> 
+
+                    <h:outputLabel for="activeRol" value="#{basicMsg.rol_activeRol}" />  
+                    <p:selectBooleanCheckbox id="activeRol" value="#{rolBean.selectedRol.activeRol}"/>
+
+                </p:panelGrid>
+                <f:facet name="footer">  
+                    <p:commandLink    value="#{basicMsg.save}"  rendered="#{rolBean.propertyPanelVisible and rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"                                 
+                                      action="#{rolBean.saveRolChanges()}" update=":form:rolesPanel :form:propertiesRolPanel :form:messages"
+                                      />
+                </f:facet>
+            </p:panel>
+        </div>
+    </ui:define>
+</ui:composition>

@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="../templates/ui.xhtml">
 
-    <ui:define name="head" >
+    <ui:define name="head">
         <style type="text/css">
             .ui-confirm-dialog-severity {
                 margin: 0 7px 7px 0;
@@ -13,78 +13,71 @@
         </style>
     </ui:define>
 
-    <ui:define name="content" >
-        <div id="inventary" class="entry" style="line-height:200%">
-            #{inventoryBean.initInventory()}
+    <ui:define name="content">  
+        <div id="inventaries" class="entry"  style="line-height:200%"  >
             <p:growl id="messages" showDetail="true" life="5000" />  
-
-            <p:panel id="inventaryPanel" styleClass="defaultCenterContent" style="float: left;">
-                <p:dataTable id="inventaryTable" style="margin: 0px 0px 0px 0px" value="#{inventoryBean.inventoryModel}" var="inventaryData" emptyMessage="#{basicMsg.msg_no_records_found}"
+            #{inventoryBean.initInventory()}
+            <p:panel id="inventariesPanel" styleClass="defaultCenterContent" style="float: left;" >
+                <p:dataTable id="inventariesTable" style="margin: 8px 0px 0px 0px" value="#{inventoryBean.inventoryModel}" var="inventory"
                              selectionMode="single" selection="#{inventoryBean.selectedInventary}" 
-                             paginator="true"  paginatorPosition="bottom" rows="12" lazy="true" > 
+                             paginator="true"  paginatorPosition="bottom" rows="12" lazy="true" emptyMessage="#{basicMsg.msg_no_records_found}"> 
 
-                    <p:ajax event="rowSelect" update=":form:propertiesInventaryPanel" resetValues="true"/>
+                    <p:ajax event="rowSelect" update=":form:propertiesInventoryPanel" />
 
-                    <p:column headerText="#{basicMsg.id}">  
-                        #{inventaryData.idInventary}  
+                    <p:column headerText="#{basicMsg.inventory_id}">  
+                        #{inventory.idInventary}
                     </p:column>  
 
-                    <p:column headerText="#{basicMsg.name}">  
-                        #{inventaryData.nameObject}  
-                    </p:column>  
-                    <p:column headerText="#{basicMsg.quantity}">  
-                        #{inventaryData.quantity}  
+                    <p:column headerText="#{basicMsg.invantory_nameObject}">  
+                        #{inventory.nameObject}  
+                    </p:column> 
+
+                    <p:column headerText="#{basicMsg.inventory_quantity}" >  
+                        #{inventory.quantity}  
                     </p:column>  
 
                     <f:facet name="footer">  
                         <p:commandLink    value="#{basicMsg.add}"    
                                           style="margin-right: 5%"
-                                          resetValues="true"
-                                          process="@this inventaryTable"
                                           action="#{inventoryBean.createInventory()}" 
-                                          rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}" 
-                                          update=":form:inventaryPanel :form:propertiesInventaryPanel :form:messages"
-                                          />
+                                          process="@this inventariesTable"
+                                          update=":form:inventariesPanel :form:propertiesInventoryPanel :form:messages"
+                                          rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"/>
 
-                        <p:commandLink value="#{basicMsg.delete}" actionListener="#{inventoryBean.removeInventory()}" rendered="#{userSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"  update=":form:inventaryPanel :form:propertiesInventaryPanel :form:messages">
-                            <p:confirm header="Confirmation" message="#{basicMsg.rfid_tag_msg_question_deleted}" icon="ui-icon-alert" />
+                        <p:commandLink value="#{basicMsg.delete}" actionListener="#{inventoryBean.removeInventory()}" 
+                                       process="@this inventariesTable" 
+                                       update="@this :form:inventariesPanel :form:propertiesInventoryPanel :form:messages" rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}">
+                            <p:confirm header="#{basicMsg.eliminating}" message="#{basicMsg.inventory_msg_question_deleted}" icon="ui-icon-alert" />
                         </p:commandLink>
 
-                        <p:confirmDialog global="true" showEffect="fade" >
+                        <p:confirmDialog global="true" showEffect="fade">
                             <p:commandButton value="#{basicMsg.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                             <p:commandButton value="#{basicMsg.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
 
                     </f:facet>
-
                 </p:dataTable>
             </p:panel>
 
-            <p:panel id="propertiesInventaryPanel" styleClass="defaultSidePropertyPanel">
+            <p:panel id="propertiesInventoryPanel" styleClass="defaultSidePropertyPanel">
                 <f:facet name="header">  
-                    #{basicMsg.rfid_tag_properties}
+                    #{basicMsg.inventory_properties_inventory}
                 </f:facet>
-                <p:panelGrid id="propertiesgroupRfidTag" columns="2"  styleClass="noBorders" rendered="#{rfidTaqBean.propertyPanelVisible and rfidTaqBean.propertyPanelNoVisible}">
-
+                <p:panelGrid id="propertiesInventory" columns="2" styleClass="noBorders" rendered="#{inventoryBean.propertyPanelVisible}">
                     <p:outputLabel/>
                     <p:inputText id="id" value="#{inventoryBean.selectedInventary.idInventary}" disabled="true" style="display: none" />  
-
-                    <h:outputLabel for="name" value="#{basicMsg.name}" />  
-                    <p:inputText id="name" value="#{inventoryBean.selectedInventary.nameObject}" required="true">  
-                    </p:inputText>   
-
-                    <h:outputLabel for="ycoord" value="#{basicMsg.y_coord}" />  
-                    <p:spinner id="ycoord" value="#{inventoryBean.selectedInventary.quantity}" stepFactor="1" required="true"/> 
-
+                    <h:outputLabel for="nameObject" value="#{basicMsg.invantory_nameObject}" />  
+                    <p:inputText id="nameObject" value="#{inventoryBean.selectedInventary.nameObject}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+                    <h:outputLabel for="quantity" value="#{basicMsg.inventory_quantity}" /> 
+                    <p:spinner id="quantity" value="#{inventoryBean.selectedInventary.quantity}" stepFactor="1"
+                               validatorMessage="#{basicMsg.msg_no_empty}"></p:spinner>
                 </p:panelGrid>
                 <f:facet name="footer">  
-                    <p:commandLink    value="#{basicMsg.save}"  rendered="#{inventoryBean.propertyPanelVisible and i.propertyPanelNoVisible}"                                 
-                                      action="#{inventoryBean.saveInventoryChanges()}" update= ":form:inventaryPanel :form:propertiesInventaryPanel :form:messages" />
+                    <p:commandLink    value="#{basicMsg.save}"  rendered="#{inventoryBean.propertyPanelVisible and rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"                                 
+                                      action="#{inventoryBean.saveInventoryChanges()}" update=":form:inventariesPanel :form:propertiesInventoryPanel :form:messages"
+                                      />
                 </f:facet>
-
-            </p:panel>         
+            </p:panel>
         </div>
-
     </ui:define>
-
 </ui:composition>

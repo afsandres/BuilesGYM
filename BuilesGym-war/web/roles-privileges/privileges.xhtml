@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/ui.xhtml">
+
+    <ui:define name="head" >
+        <style type="text/css">
+            .ui-confirm-dialog-severity {
+                margin: 0 7px 7px 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content" >
+
+        <div class="entry" style="line-height:200%">
+
+            #{privilegeBean.initPrivileges()}
+
+            <br/>
+
+            <h:outputLabel value="#{basicMsg.rol_msg_selected}" style="font-size: 14px " rendered="#{privilegeBean.selectedRol.idRol eq null}"/>
+            <h:outputLabel value="#{basicMsg.privilege_for} #{privilegeBean.selectedRol.nameRol}" style="font-size: 14px " rendered="#{privilegeBean.selectedRol.idRol ne null}"/>
+            <br/>
+
+
+            <p:growl id="messages" showDetail="true" life="5000"/>  
+
+            <p:treeTable id="treetablePrivileges" value="#{privilegeBean.root}" var="userSystemPrivileges" rendered="#{privilegeBean.selectedRol.idRol ne null}" >  
+
+                <f:facet name="header">  
+                    #{basicMsg.privilege_title}
+                </f:facet>
+
+                <p:column style="width:50%" >
+                    <f:facet name="header">  
+                        #{basicMsg.privilege_code}
+                    </f:facet>  
+                    <h:outputText value="#{menuMsg[userSystemPrivileges.systemSection]}" />  
+                </p:column>
+
+                <p:column >
+                    <f:facet name="header">
+                        #{basicMsg.privilege_level}
+                    </f:facet>
+                    <p:selectOneMenu value="#{userSystemPrivileges.privilege}" required="true" disabled="#{privilegeBean.verifyPrivilegeReadOnly(userSystemPrivileges)}">
+                        <f:selectItem itemLabel="Seleccione privilegio" itemValue=""/>  
+                        <f:selectItems value="#{privilegeBean.getPrivilegeList(userSystemPrivileges)}"/>
+                        <p:ajax update="treetablePrivileges :form:messages"  
+                                listener="#{privilegeBean.handleUserSystemPrivileges(userSystemPrivileges)}" />
+                    </p:selectOneMenu>
+                </p:column>
+
+                <f:facet name="footer" >  
+                    <p:commandLink id="btnGuardar" value="#{basicMsg.privilege_save}"
+                                   style="margin-right: 2%" action="#{privilegeBean.saveChanges()}" 
+                                   update=":form:treetablePrivileges :form:messages"
+                                   rendered="#{(privilegeBean.selectedRol.idRol ne null) 
+                                               and rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}" />
+                    <p:commandLink id="btnRestablecer" value="#{basicMsg.privilege_reset}" 
+                                   style="margin-right: 100%" action="#{privilegeBean.restorePrivilegesTree()}" 
+                                   update=":form:treetablePrivileges :form:messages"
+                                   rendered="#{(privilegeBean.selectedRol.idRol ne null) 
+                                               and rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}" />
+                </f:facet>
+
+            </p:treeTable>
+
+        </div>
+
+
+    </ui:define>
+</ui:composition>

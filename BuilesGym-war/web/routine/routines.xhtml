@@ -1,16 +1,77 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/ui.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .ui-confirm-dialog-severity {
+                margin: 0 7px 7px 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">  
+        <div id="routines" class="entry"  style="line-height:200%"  >
+            <p:growl id="messages" showDetail="true" life="5000" />  
+            #{routineBean.initRoutine()}
+            <p:panel id="routinesPanel" styleClass="defaultCenterContent" style="float: left;" >
+                <p:dataTable id="routinesTable" style="margin: 8px 0px 0px 0px" value="#{routineBean.routineModel}" var="routine"
+                             selectionMode="single" selection="#{routineBean.selectedRoutine}" 
+                             paginator="true"  paginatorPosition="bottom" rows="12" lazy="true" emptyMessage="#{basicMsg.msg_no_records_found}"> 
+
+                    <p:ajax event="rowSelect" update=":form:propertiesRoutinePanel" />
+
+                    <p:column headerText="#{basicMsg.routine_id}">  
+                        #{routine.idRoutine}
+                    </p:column>  
+
+                    <p:column headerText="#{basicMsg.routine_nameRoutine}">  
+                        #{routine.nameRoutine}  
+                    </p:column> 
+
+                    <f:facet name="footer">  
+                        <p:commandLink    value="#{basicMsg.add}"    
+                                          style="margin-right: 5%"
+                                          action="#{routineBean.createRoutine()}" 
+                                          process="@this routinesTable"
+                                          update=":form:routinesPanel :form:propertiesRoutinePanel :form:messages"
+                                          rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"/>
+
+                        <p:commandLink value="#{basicMsg.delete}" actionListener="#{routineBean.removeRoutine()}" 
+                                       process="@this routinesTable" 
+                                       update="@this :form:routinesPanel :form:propertiesRoutinePanel :form:messages" rendered="#{rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}">
+                            <p:confirm header="#{basicMsg.eliminating}" message="#{basicMsg.routine_msg_question_deleted}" icon="ui-icon-alert" />
+                        </p:commandLink>
+
+                        <p:confirmDialog global="true" showEffect="fade">
+                            <p:commandButton value="#{basicMsg.yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{basicMsg.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel id="propertiesRoutinePanel" styleClass="defaultSidePropertyPanel">
+                <f:facet name="header">  
+                    #{basicMsg.routine_properties_routine}
+                </f:facet>
+                <p:panelGrid id="propertiesRoutine" columns="2" styleClass="noBorders" rendered="#{routineBean.propertyPanelVisible}">
+                    <p:outputLabel/>
+                    <p:inputText id="id" value="#{routineBean.selectedRoutine.idRoutine}" disabled="true" style="display: none" />  
+                    <h:outputLabel for="nameRoutine" value="#{basicMsg.routine_nameRoutine}" />  
+                    <p:inputText id="nameRoutine" value="#{routineBean.selectedRoutine.nameRoutine}" maxlength="45" validatorMessage="#{basicMsg.msg_no_empty_max_value}"/>
+               
+                </p:panelGrid>
+                <f:facet name="footer">  
+                    <p:commandLink    value="#{basicMsg.save}"  rendered="#{routineBean.propertyPanelVisible and rolSessionBean.verifyCurrentSubsectionReadWritePrivilege()}"                                 
+                                      action="#{routineBean.saveRoutineChanges()}" update=":form:routinesPanel :form:propertiesRoutinePanel :form:messages"
+                                      />
+                </f:facet>
+            </p:panel>
+        </div>
+    </ui:define>
+</ui:composition>

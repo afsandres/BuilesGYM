@@ -82,15 +82,21 @@
             </section>
             
             <section>
-                <name>service</name>
+                <name>roles_privileges</name>
                 <level>0</level>
-                <systemSectionCode>ADMIN_SERVICE</systemSectionCode>
+                <systemSectionCode>ADMIN_ROLES_PRIVILEGES</systemSectionCode>
                 <subsectionList>
                     <subsection>
-                        <name>services</name>
-                        <level>0</level>
-                        <systemSectionCode>ADMIN_SERVICE_SERVICES</systemSectionCode>
-                        <url>/service/services.jsf</url>                      
+                        <name>roles</name>
+                        <systemSectionCode>ADMIN_ROLES_PRIVILEGES_ROLES</systemSectionCode>
+                        <level>3</level>
+                        <url>/roles-privileges/roles.jsf</url>
+                    </subsection>
+                    <subsection>
+                        <name>privileges</name>
+                        <systemSectionCode>ADMIN_ROLES_PRIVILEGES_PRIVILEGES</systemSectionCode>
+                        <level>3</level>
+                        <url>/roles-privileges/privileges.jsf</url>
                     </subsection>
                 </subsectionList>
             </section>
@@ -106,17 +112,33 @@
                         <systemSectionCode>ADMIN_EMPLOYEE_EMPLOYEES</systemSectionCode>
                         <url>/employee/employees.jsf</url>                      
                     </subsection>
+                </subsectionList>
+            </section>
+            
+            <section>
+                <name>service</name>
+                <level>0</level>
+                <systemSectionCode>ADMIN_SERVICE</systemSectionCode>
+                <subsectionList>
                     <subsection>
-                        <name>roles</name>
-                        <systemSectionCode>ADMIN_EMPLOYEE_ROLES</systemSectionCode>
-                        <level>3</level>
-                        <url>/employee/roles.jsf</url>
+                        <name>services</name>
+                        <level>0</level>
+                        <systemSectionCode>ADMIN_SERVICE_SERVICES</systemSectionCode>
+                        <url>/service/services.jsf</url>                      
                     </subsection>
+                </subsectionList>
+            </section>
+            
+            <section>
+                <name>service_inventary</name>
+                <level>0</level>
+                <systemSectionCode>ADMIN_SERVICE_INVENTARIES</systemSectionCode>
+                <subsectionList>
                     <subsection>
-                        <name>privileges</name>
-                        <systemSectionCode>ADMIN_EMPLOYEE_PRIVILEGES</systemSectionCode>
-                        <level>3</level>
-                        <url>/employee/privileges.jsf</url>
+                        <name>services-inventaries</name>
+                        <level>0</level>
+                        <systemSectionCode>ADMIN_SERVICE_INVENTARIES_SERVICE_INVENTARIES</systemSectionCode>
+                        <url>/service-inventaries/services-inventaries.jsf</url>                      
                     </subsection>
                 </subsectionList>
             </section>
@@ -128,7 +150,7 @@
                 <subsectionList>
                     <subsection>
                         <name>clients</name>
-                        <level>0</level>
+                        <level>3</level>
                         <systemSectionCode>ADMIN_CLIENT_CLIENTS</systemSectionCode>
                         <url>/client/clients.jsf</url>                      
                     </subsection>
