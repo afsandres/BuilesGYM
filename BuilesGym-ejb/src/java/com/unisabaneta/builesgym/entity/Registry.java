@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Registry.findAll", query = "SELECT r FROM Registry r")
     , @NamedQuery(name = "Registry.findByIdRegistry", query = "SELECT r FROM Registry r WHERE r.idRegistry = :idRegistry")
     , @NamedQuery(name = "Registry.findByStartDate", query = "SELECT r FROM Registry r WHERE r.startDate = :startDate")
+    , @NamedQuery(name = "Registry.findByClientandStartDate", query = "SELECT r FROM Registry r WHERE r.startDate = :startDate AND r.clientidClient = :clientidClient")
     , @NamedQuery(name = "Registry.findByEndDate", query = "SELECT r FROM Registry r WHERE r.endDate = :endDate")})
 public class Registry implements Serializable {
 
@@ -127,5 +128,5 @@ public class Registry implements Serializable {
     public String toString() {
         return "com.unisabaneta.builesgym.entity.Registry[ idRegistry=" + idRegistry + " ]";
     }
-    
+
 }

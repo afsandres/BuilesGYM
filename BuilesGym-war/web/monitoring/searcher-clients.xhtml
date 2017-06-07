@@ -18,13 +18,16 @@
         <div id="searcher" class="entry" style="line-height:200%">
             <p:growl id="messages" showDetail="true" life="5000" />  
             <p:panel id="searcherPanel" styleClass="defaultCenterContent" style="float: left;" >
-                <p:panelGrid id="searchClient" columns="2" styleClass="noBorders">
+                <p:panelGrid id="searchClient" columns="3" styleClass="noBorders">
                     <p:outputLabel value="#{basicMsg.search_client}"/>
                     <p:inputText value="#{searchClientBean.document}" validatorMessage="#{basicMsg.msg_no_empty_max_value}" maxlength="10" />
-                    <p:commandLink value="#{basicMsg.search}" action="#{searchClientBean.searchClient()}" update=":form:propertiesClient :form:messages"/>
-                    <p:panelGrid id="propertiesClient" columns="2" styleClass="noBorders" rendered="#{searchClientBean.propertyPanelVisible}">
-                        <p:outputLabel value="#{searchClientBean.client.nameClient}"/>
-                        <p:outputLabel value="#{searchClientBean.client.activeClient}"/>
+                    <p:commandLink value="#{basicMsg.search}" action="#{searchClientBean.searchClient()}" update=":form:searcherPanel :form:messages"/>
+                    <p:panelGrid id="propertiesClient" columns="2" styleClass="noBorders"  rendered="#{searchClientBean.propertyPanelVisible}">
+
+                        <h:outputLabel for="startDate" value="#{basicMsg.employee_startDate}" />  
+                        <p:calendar id="startDate" value="#{searchClientBean.registry.startDate}" mindate="#{searchClientBean.minDate}"></p:calendar>
+                        <p:commandLink value="#{basicMsg.registry}" action="#{searchClientBean.registryClient()}" update=":form:messages"/>
+
                     </p:panelGrid>
                 </p:panelGrid>
             </p:panel>   

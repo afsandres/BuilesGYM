@@ -28,5 +28,5 @@ public class RegistryFacade extends AbstractFacade<Registry> {
     public RegistryFacade() {
         super(Registry.class);
     }
-    
-}
+
+        }

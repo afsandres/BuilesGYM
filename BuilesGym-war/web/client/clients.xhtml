@@ -14,7 +14,7 @@
     </ui:define>
 
     <ui:define name="content">  
-        <div id="clients" class="entry"  style="line-height:200%"  >
+        <div id="clients" class="entry"  style="line-height:200%">
             <p:growl id="messages" showDetail="true" life="5000" />  
             #{clientBean.initClient()}
             <p:panel id="clientsPanel" styleClass="defaultCenterContent" style="float: left;" >
@@ -108,6 +108,15 @@
                     <p:inputText id="weightClient"  value="#{clientBean.selectedClient.weightClient}"
                                  validatorMessage="#{basicMsg.msg_no_empty_format}">
                     </p:inputText>
+                    <p:separator/>
+                    <h:outputLabel value="TICKET" /> 
+                    <h:outputLabel for="price" value="#{basicMsg.price}" /> 
+                    <p:inputText id="price"  value="#{clientBean.selectedTicket.price}"
+                                 validatorMessage="#{basicMsg.msg_no_empty_format}"/>
+                    <h:outputLabel for="startDate" value="#{basicMsg.employee_startDate}" />  
+                    <p:calendar id="startDate" value="#{clientBean.selectedTicket.startDate}" mindate="#{clientBean.maxDate}"></p:calendar>
+                    <h:outputLabel for="endDate" value="#{basicMsg.employee_endDate}" />  
+                    <p:calendar id="endDate" value="#{clientBean.selectedTicket.endDate}" mindate="#{clientBean.maxDate}"></p:calendar>
 
                 </p:panelGrid>
                 <f:facet name="footer">  

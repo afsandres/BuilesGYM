@@ -6,7 +6,9 @@
 package com.unisabaneta.builesgym.client;
 
 import com.unisabaneta.builesgym.dao.ClientFacade;
+import com.unisabaneta.builesgym.dao.TicketFacade;
 import com.unisabaneta.builesgym.entity.Client;
+import com.unisabaneta.builesgym.entity.Ticket;
 import com.unisabaneta.builesgym.model.ClientModel;
 import com.unisabaneta.builesgym.tools.MessageTools;
 import java.io.Serializable;
@@ -34,6 +36,8 @@ public class ClientBean implements Serializable {
     @Inject
     private ClientFacade clientFacade;
     @Inject
+    private TicketFacade ticketFacade;
+    @Inject
     private MessageTools messageTools;
     @Inject
     private ResourcesMgr resourcesMgr;
@@ -43,6 +47,9 @@ public class ClientBean implements Serializable {
      * client seleccionado
      */
     private Client selectedClient;
+
+    private Ticket selectedTicket;
+
     /**
      * toma la vista raiz para luego poder tomar el lenguaje local
      */
@@ -76,6 +83,7 @@ public class ClientBean implements Serializable {
     public void initClient() {
         setMaxDate(new Date());
         setSelectedClient(null);
+        setSelectedTicket(null);
         setPropertyPanelVisible(false);
         setPropertyPanelNoVisible(false);
         clientModel = null;
@@ -87,7 +95,9 @@ public class ClientBean implements Serializable {
      */
     public void createClient() {
         Client client = new Client();
+        Ticket ticket = new Ticket();
         setSelectedClient(client);
+        setSelectedTicket(ticket);
         setPropertyPanelVisible(true);
         messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("client_msg_fill", viewRoot.getLocale()), "");
     }
@@ -98,6 +108,8 @@ public class ClientBean implements Serializable {
     public void editClient() {
         try {
             clientFacade.edit(getSelectedClient());
+            selectedTicket.setClientidClient(selectedClient);
+            ticketFacade.edit(selectedTicket);
         } catch (Exception e) {
             Logger.getLogger(ClientBean.class.getName()).log(Level.FINEST, "editClient", e);
         }
@@ -121,6 +133,8 @@ public class ClientBean implements Serializable {
             }
             if (isNew) {
                 clientFacade.create(getSelectedClient());
+                selectedTicket.setClientidClient(selectedClient);
+                ticketFacade.create(selectedTicket);
                 messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("msg_create_successfully", viewRoot.getLocale()), "");
                 clientModel = null;
             } else {
@@ -161,10 +175,12 @@ public class ClientBean implements Serializable {
                 messageTools.displayMessage(FacesMessage.SEVERITY_WARN, resourcesMgr.getText("client_msg_selected_deleted", viewRoot.getLocale()), "");
                 return;
             } else {
+                ticketFacade.remove(getSelectedTicket());
                 clientFacade.remove(getSelectedClient());
                 messageTools.displayMessage(FacesMessage.SEVERITY_INFO, resourcesMgr.getText("msg_remove_successfully", viewRoot.getLocale()), "");
                 setPropertyPanelVisible(false);
                 selectedClient = null;
+                setSelectedTicket(null);
                 clientModel = null;
                 success = true;
             }
@@ -257,6 +273,23 @@ public class ClientBean implements Serializable {
         }
         this.selectedClient = client;
     }
+
+    /**
+     * @return the selectedTicket
+     */
+    public Ticket getSelectedTicket() {
+        if (selectedTicket == null) {
+            selectedTicket = findTicket();
+        }
+        return selectedTicket;
+    }
+
+    /**
+     * @param ticket
+     */
+    public void setSelectedTicket(Ticket ticket) {
+        this.selectedTicket = ticket;
+    }
     //</editor-fold>
 
     /**
@@ -271,6 +304,19 @@ public class ClientBean implements Serializable {
      */
     public void setMaxDate(Date maxDate) {
         this.maxDate = maxDate;
+    }
+
+    private Ticket findTicket() {
+        Ticket ticket = new Ticket();
+        List<Ticket> findAll = ticketFacade.findAll();
+        if (findAll != null && !findAll.isEmpty()) {
+            for (Ticket ticketa : findAll) {
+                if (ticket.getClientidClient().getIdClient() == selectedClient.getIdClient()) {
+                    ticket = ticketa;
+                }
+            }
+        }
+        return ticket;
     }
 
 }
